@@ -22,15 +22,30 @@ void drawLine(iVec2 startpos, iVec2 endpos, t_game *game, uint Color) {
 	}
 }
 
-void drawRect(iVec2 bleft, iVec2 bright, iVec2 tleft, iVec2 tright, t_game *game, uint Color) {
-	drawLine(bleft, bright, game, Color);
-	drawLine(bright, tright, game, Color);
-	drawLine(tright, tleft, game, Color);
-	drawLine(tleft, bleft, game, Color);
+void drawTriangle(iVertices vertices, t_game *game, uint Color) {
+	drawLine(vertices.a, vertices.b, game, Color);
+	drawLine(vertices.a, vertices.c, game, Color);
+	drawLine(vertices.c, vertices.b, game, Color);
 }
 
-void drawFilledRect(iVec2 bleft, iVec2 bright, iVec2 tleft, iVec2 tright, t_game *game, uint Color) {
-	while () {
-		
-	}
+void drawFilledTriangle(iVertices vertices, t_game *game, uint Color) {
+	if (vertices.a.y > vertices.b.y) { swapiVec2s(&vertices.a, &vertices.b); }
+	if (vertices.a.y > vertices.c.y) { swapiVec2s(&vertices.a, &vertices.c); }
+	if (vertices.b.y > vertices.c.y) { swapiVec2s(&vertices.b, &vertices.c); }
+
+	for (int y = vertices.a.y; y <= vertices.c.y; y++) {
+        int x1, x2;
+
+        if (y < vertices.b.y) {
+            x1 = interpolate(vertices.a, vertices.b, y);
+            x2 = interpolate(vertices.a, vertices.c, y);
+        } else {
+            x1 = interpolate(vertices.b, vertices.c, y);
+            x2 = interpolate(vertices.a, vertices.c, y);
+        }
+
+        if (x1 > x2) { swapInt(&x1, &x2); }
+
+        drawLine(newiVec2(x1, y), newiVec2(x2, y), game, Color);
+    }
 }

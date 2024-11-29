@@ -9,7 +9,7 @@ static void update(t_game *game) {
 }
 
 static void render(t_game *game) {
-	drawFilledRect(newiVec2(25, 25), newiVec2(80, 60), newiVec2(30, 320), newiVec2(100, 260), game, WHITE);
+
 }
 
 int main(void) {
@@ -38,6 +38,7 @@ int main(void) {
 	ASSERT(game.texture, "Failed to create SDL texture: %s\n", SDL_GetError());
 
 	init(&game);
+	uint start_time = SDL_GetTicks();
 	while (!game.quit) {
 		SDL_Event ev;
 		while (SDL_PollEvent(&ev)) {
@@ -54,6 +55,9 @@ int main(void) {
 			game.quit = true;
 
 		bzero(game.pixels, sizeof(game.pixels));
+
+		uint current_time = SDL_GetTicks();
+		float time = (current_time - start_time) / 1000.0f;
 
 		update(&game);
 		render(&game);
