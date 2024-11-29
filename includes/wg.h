@@ -1,6 +1,7 @@
 #ifndef CWG_MAIN_H
 # define CWG_MAIN_H
 
-// Blabla
+# include "wg_vars.h"
+# include "graphics.h"
 
 #endif

@@ -1,7 +1,7 @@
 NAME = cwarfare-game.out
 
-CC = cc
-CFLAGS = -I${INCLUDES}
+CC = clang
+CFLAGS = -I${INCLUDES} -lSDL2 -w
 
 INCLUDES = ./includes/
 SRCS = ${wildcard ./srcs/*.c}
