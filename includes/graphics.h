@@ -15,7 +15,7 @@
 # define PINK 0xFF00FF
 
 void drawLine(iVec2 startpos, iVec2 endpos, t_game *game, uint Color);
-void drawRect(iVec2 startpos, iVec2 endpos, t_game *game, uint Color);
-void drawFilledRect(iVec2 startpos, iVec2 endpos, t_game *game, uint Color);
+void drawRect(iVec2 bleft, iVec2 bright, iVec2 tleft, iVec2 tright, t_game *game, uint Color);
+void drawFilledRect(iVec2 bleft, iVec2 bright, iVec2 tleft, iVec2 tright, t_game *game, uint Color);
 
 #endif

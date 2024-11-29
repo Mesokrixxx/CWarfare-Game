@@ -9,7 +9,7 @@ static void update(t_game *game) {
 }
 
 static void render(t_game *game) {
-	
+	drawFilledRect(newiVec2(25, 25), newiVec2(80, 60), newiVec2(30, 320), newiVec2(100, 260), game, WHITE);
 }
 
 int main(void) {
