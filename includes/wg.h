@@ -4,5 +4,6 @@
 # include "wg_vars.h"
 # include "wg_math.h"
 # include "graphics.h"
+# include "entity.h"
 
 #endif

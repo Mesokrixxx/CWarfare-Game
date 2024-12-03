@@ -13,6 +13,8 @@
 typedef enum { false, true } Bool;
 typedef struct { float	x, y; } Vec2;
 typedef struct { int	x, y; } iVec2;
+typedef struct { float	x, y, z; } Vec3;
+typedef struct { int	x, y, z; } iVec3;
 typedef struct { Vec2	a, b, c; } Vertices;
 typedef struct { iVec2	a, b, c; } iVertices;
 
@@ -42,6 +44,6 @@ typedef struct s_game {
 	SDL_Renderer	*renderer;
 	uint			pixels[MapWidth * MapHeight];
 	Bool			quit;
-}	t_game;
+}	Game;
 
 #endif

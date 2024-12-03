@@ -4,7 +4,8 @@ CC = clang
 CFLAGS = -I${INCLUDES} -lSDL2 -lm -w
 
 INCLUDES = ./includes/
-SRCS = ${wildcard ./srcs/*.c}
+SRCS =	${wildcard ./srcs/*.c}
+SRCS +=	${wildcard ./srcs/entities/*.c}
 OBJS = ${SRCS:.c=.o}
 
 all: ${NAME}

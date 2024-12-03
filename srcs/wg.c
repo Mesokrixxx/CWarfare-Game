@@ -1,19 +1,24 @@
 #include "wg.h"
 
-static void init(t_game *game) {
+static void load(Game *game)
+{
+	
+}
+
+static void init(Game *game) {
+	
+}
+
+static void update(Game *game) {
 
 }
 
-static void update(t_game *game) {
-
-}
-
-static void render(t_game *game) {
+static void render(Game *game) {
 
 }
 
 int main(void) {
-	t_game game;
+	Game game;
 
 	bzero(&game, sizeof(game));
 	ASSERT(!SDL_Init(SDL_INIT_VIDEO),
@@ -37,6 +42,7 @@ int main(void) {
 						MapWidth, MapHeight);
 	ASSERT(game.texture, "Failed to create SDL texture: %s\n", SDL_GetError());
 
+	load(&game);
 	init(&game);
 	uint start_time = SDL_GetTicks();
 	while (!game.quit) {

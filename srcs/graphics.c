@@ -1,6 +1,6 @@
 #include "graphics.h"
 
-void drawLine(iVec2 startpos, iVec2 endpos, t_game *game, uint Color) {
+void drawLine(iVec2 startpos, iVec2 endpos, Game *game, uint Color) {
 	float dx = endpos.x - startpos.x, dy = endpos.y - startpos.y;
 
 	int steps = (ABS(dx) > ABS(dy) ? ABS(dx) : ABS(dy));
@@ -22,13 +22,13 @@ void drawLine(iVec2 startpos, iVec2 endpos, t_game *game, uint Color) {
 	}
 }
 
-void drawTriangle(iVertices vertices, t_game *game, uint Color) {
+void drawTriangle(iVertices vertices, Game *game, uint Color) {
 	drawLine(vertices.a, vertices.b, game, Color);
 	drawLine(vertices.a, vertices.c, game, Color);
 	drawLine(vertices.c, vertices.b, game, Color);
 }
 
-void drawFilledTriangle(iVertices vertices, t_game *game, uint Color) {
+void drawFilledTriangle(iVertices vertices, Game *game, uint Color) {
 	if (vertices.a.y > vertices.b.y) { swapiVec2s(&vertices.a, &vertices.b); }
 	if (vertices.a.y > vertices.c.y) { swapiVec2s(&vertices.a, &vertices.c); }
 	if (vertices.b.y > vertices.c.y) { swapiVec2s(&vertices.b, &vertices.c); }
