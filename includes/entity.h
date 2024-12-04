@@ -11,7 +11,7 @@ typedef struct s_functions{
     void    (*update)(void*);
 }   Functions;
 
-Functions *functionsRegister( void (*init)(void*),
+Functions *functionsRegister(   void (*init)(void*),
                                 void (*render)(void*),
                                 void (*update)(void*));
 

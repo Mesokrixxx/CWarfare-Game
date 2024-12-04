@@ -16,7 +16,7 @@ void initSceneContent(Scene *s) {
 	{
 		Entity *e = ((Entity *)s->entities->content[i]);
 		if (e->f->init)
-			e->f->init(NULL);
+			e->f->init(e);
 	}
 }
 
@@ -24,7 +24,8 @@ void updateSceneContent(Scene *s) {
 	for (int i = 0; i < s->entities->size; i++)
 	{
 		Entity *e = (Entity *)s->entities->content[i];
-		e->f->update(e);
+		if (e->f->update)
+			e->f->update(e);
 	}
 }
 
@@ -32,6 +33,7 @@ void renderSceneContent(Scene *s) {
 	for (int i = 0; i < s->entities->size; i++)
 	{
 		Entity *e = (Entity *)s->entities->content[i];
-		e->f->render(e);
+		if (e->f->render)
+			e->f->render(e);
 	}
 }

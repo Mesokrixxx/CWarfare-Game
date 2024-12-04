@@ -19,13 +19,13 @@ static void init(Game *game, SceneManager *SM) {
 }
 
 static void update(Game *game, SceneManager *SM) {
-	// Scene *actualScene = getActualScene(SM);
-	// updateSceneContent(actualScene);
+	Scene *actualScene = getActualScene(SM);
+	updateSceneContent(actualScene);
 }
 
 static void render(Game *game, SceneManager *SM) {
-	// Scene *actualScene = getActualScene(SM);
-	// renderSceneContent(actualScene);
+	Scene *actualScene = getActualScene(SM);
+	renderSceneContent(actualScene);
 }
 
 int main(void) {
