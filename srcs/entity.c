@@ -21,12 +21,3 @@ Entity *entityConstructor(iVec3 pos, Vec3 vel, Functions *f) {
     entity->f = f;
     return (entity);
 }
-
-Tank *tankConstructor(iVec3 pos, Vec3 vel, Functions *f, int temp) {
-    Tank *tank;
-
-    tank = calloc(1, sizeof(struct s_tank));
-    tank->base = entityConstructor(pos, vel, f);
-    tank->temp;
-    return (tank);
-}

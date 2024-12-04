@@ -1,19 +1,22 @@
 # include "entity.h"
 
-void tankInit(void *vTank) {
-    printf("Tank initialising\n");
+static void init(void *vTank) {
+    printf("Tank initialising: %d\n", ((Tank *)vTank)->id);
 }
 
-void tankRender(void *vTank) {
-    printf("Tank Rendering\n");
+static void render(void *vTank) {
+    printf("Tank Rendering: %d\n", ((Tank *)vTank)->id);
 }
 
-void tankUpdate(void *vTank) {
-    printf("Tank Updating\n");
+static void update(void *vTank) {
+    printf("Tank Updating: %d\n", ((Tank *)vTank)->id);
 }
 
-void tankLoad(Tank *tank, iVec3 pos, Vec3 vel, int temp)
-{
-    Functions *f = functionsRegister(tankInit, tankRender, tankUpdate);
-    tank = tankConstructor(pos, vel, f, temp);
+Tank *tankConstructor(iVec3 pos, Vec3 vel, int id) {
+    Tank *tank;
+
+    tank = calloc(1, sizeof(struct s_tank));
+    tank->base = entityConstructor(pos, vel, functionsRegister(init, render, update));
+    tank->id = id;
+    return (tank);
 }

@@ -2,23 +2,40 @@
 
 static void load(Game *game)
 {
+	Tank			*tank1;
+	Tank			*tank2;
+	tank1 = tankConstructor(newiVec3(0, 0, 0), newVec3(0, 0, 0), 1);
+	tank2 = tankConstructor(newiVec3(0, 0, 0), newVec3(0, 0, 0), 2);
 	
+	Scene			*gameScene;
+	gameScene = initScene();
+	addEntityToScene(gameScene, tank1);
+	addEntityToScene(gameScene, tank2);
+
+	SceneManager	*SM;
+	SM = initSceneManager();
+	addSceneToSceneManager(SM, gameScene);
 }
 
-static void init(Game *game) {
-	
+static void init(Game *game, SceneManager *SM) {
+	Scene *actualScene = getActualScene(SM);
+	initSceneContent(actualScene);
 }
 
-static void update(Game *game) {
-
+static void update(Game *game, SceneManager *SM) {
+	Scene *actualScene = getActualScene(SM);
+	updateSceneContent(actualScene);
 }
 
-static void render(Game *game) {
-
+static void render(Game *game, SceneManager *SM) {
+	Scene *actualScene = getActualScene(SM);
+	renderSceneContent(actualScene);
 }
 
 int main(void) {
-	Game game;
+	SceneManager	SM;
+	Game 			game;
+	
 
 	bzero(&game, sizeof(game));
 	ASSERT(!SDL_Init(SDL_INIT_VIDEO),
@@ -42,9 +59,8 @@ int main(void) {
 						MapWidth, MapHeight);
 	ASSERT(game.texture, "Failed to create SDL texture: %s\n", SDL_GetError());
 
-	load(&game);
-	init(&game);
-	uint start_time = SDL_GetTicks();
+	load(&SM);
+	init(&game, &SM);
 	while (!game.quit) {
 		SDL_Event ev;
 		while (SDL_PollEvent(&ev)) {
@@ -62,11 +78,8 @@ int main(void) {
 
 		bzero(game.pixels, sizeof(game.pixels));
 
-		uint current_time = SDL_GetTicks();
-		float time = (current_time - start_time) / 1000.0f;
-
-		update(&game);
-		render(&game);
+		update(&game, &SM);
+		render(&game, &SM);
 
 		SDL_UpdateTexture(game.texture, NULL, game.pixels, MapWidth * 4);
 		SDL_RenderCopyEx(

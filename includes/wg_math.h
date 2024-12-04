@@ -3,6 +3,16 @@
 
 # include "wg_vars.h"
 
+# define ABS(x) ((x) < 0 ? -(x) : (x))
+# define ROUND(x) ((int)((x) + 0.5f))
+
+typedef struct { float	x, y; } Vec2;
+typedef struct { int	x, y; } iVec2;
+typedef struct { float	x, y, z; } Vec3;
+typedef struct { int	x, y, z; } iVec3;
+typedef struct { Vec2	a, b, c; } Vertices;
+typedef struct { iVec2	a, b, c; } iVertices;
+
 Vec2 newVec2(float x, float y);
 iVec2 newiVec2(int x, int y);
 Vec3 newVec3(float x, float y, float z);

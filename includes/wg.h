@@ -4,6 +4,9 @@
 # include "wg_vars.h"
 # include "wg_math.h"
 # include "graphics.h"
+# include "dynamicList.h"
 # include "entity.h"
+# include "scene.h"
+# include "sceneManager.h"
 
 #endif
