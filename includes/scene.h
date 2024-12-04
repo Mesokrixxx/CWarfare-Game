@@ -9,7 +9,7 @@ typedef struct s_scene {
 } Scene;
 
 Scene *initScene();
-void addEntityToScene(Scene *s, void *entity);
+void addEntityToScene(Scene *s, Entity *entity);
 
 void initSceneContent(Scene *s);
 void updateSceneContent(Scene *s);

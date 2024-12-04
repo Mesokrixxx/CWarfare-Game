@@ -1,20 +1,16 @@
 #include "wg.h"
 
-static void load(Game *game)
+static void load(SceneManager **SM)
 {
-	Tank			*tank1;
-	Tank			*tank2;
-	tank1 = tankConstructor(newiVec3(0, 0, 0), newVec3(0, 0, 0), 1);
-	tank2 = tankConstructor(newiVec3(0, 0, 0), newVec3(0, 0, 0), 2);
-	
-	Scene			*gameScene;
-	gameScene = initScene();
+	Tank			*tank1 = tankConstructor(newiVec3(0, 0, 0), newVec3(0, 0, 0), 1);
+	Tank			*tank2 = tankConstructor(newiVec3(0, 0, 0), newVec3(0, 0, 0), 2);
+
+	Scene			*gameScene = initScene();
 	addEntityToScene(gameScene, tank1);
 	addEntityToScene(gameScene, tank2);
 
-	SceneManager	*SM;
-	SM = initSceneManager();
-	addSceneToSceneManager(SM, gameScene);
+	*SM = initSceneManager();
+	addSceneToSceneManager(*SM, gameScene);
 }
 
 static void init(Game *game, SceneManager *SM) {
@@ -23,21 +19,21 @@ static void init(Game *game, SceneManager *SM) {
 }
 
 static void update(Game *game, SceneManager *SM) {
-	Scene *actualScene = getActualScene(SM);
-	updateSceneContent(actualScene);
+	// Scene *actualScene = getActualScene(SM);
+	// updateSceneContent(actualScene);
 }
 
 static void render(Game *game, SceneManager *SM) {
-	Scene *actualScene = getActualScene(SM);
-	renderSceneContent(actualScene);
+	// Scene *actualScene = getActualScene(SM);
+	// renderSceneContent(actualScene);
 }
 
 int main(void) {
-	SceneManager	SM;
+	SceneManager	*SM;
 	Game 			game;
 	
-
 	bzero(&game, sizeof(game));
+	bzero(&SM, sizeof(SM));
 	ASSERT(!SDL_Init(SDL_INIT_VIDEO),
 		"Failed to init SDL video: %s\n",
 		SDL_GetError());
@@ -60,7 +56,7 @@ int main(void) {
 	ASSERT(game.texture, "Failed to create SDL texture: %s\n", SDL_GetError());
 
 	load(&SM);
-	init(&game, &SM);
+	init(&game, SM);
 	while (!game.quit) {
 		SDL_Event ev;
 		while (SDL_PollEvent(&ev)) {
@@ -78,8 +74,8 @@ int main(void) {
 
 		bzero(game.pixels, sizeof(game.pixels));
 
-		update(&game, &SM);
-		render(&game, &SM);
+		update(&game, SM);
+		render(&game, SM);
 
 		SDL_UpdateTexture(game.texture, NULL, game.pixels, MapWidth * 4);
 		SDL_RenderCopyEx(

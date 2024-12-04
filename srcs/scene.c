@@ -1,22 +1,22 @@
 #include "scene.h"
 
 Scene *initScene() {
-	Scene *s;
+	Scene *s = calloc(1, sizeof(struct s_scene));
 
-	s = calloc(1, sizeof(struct s_scene));
 	s->entities = initDynamicList(sizeof(struct s_entity));
 	return (s);
 }
 
-void addEntityToScene(Scene *s, void *entity) {
+void addEntityToScene(Scene *s, Entity *entity) {
 	appendToDList(s->entities, entity);
 }
 
 void initSceneContent(Scene *s) {
 	for (int i = 0; i < s->entities->size; i++)
 	{
-		Entity *e = (Entity *)s->entities->content[i];
-		e->f->init(e);
+		Entity *e = ((Entity *)s->entities->content[i]);
+		if (e->f->init)
+			e->f->init(NULL);
 	}
 }
 

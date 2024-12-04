@@ -1,10 +1,10 @@
 #include "sceneManager.h"
 
 SceneManager *initSceneManager() {
-	SceneManager *SM;
+	SceneManager *SM = calloc(1, sizeof(struct s_scenemanager));
 
-	SM = calloc(1, sizeof(struct s_scenemanager));
 	SM->scenes = initDynamicList(sizeof(struct s_scene));
+	SM->index = 0;
 	return (SM);
 }
 
@@ -13,5 +13,5 @@ void addSceneToSceneManager(SceneManager *sm, Scene *s) {
 }
 
 Scene *getActualScene(SceneManager *sm) {
-	return ((Scene *)sm->scenes->content[sm->index]);
+	return ((Scene *)(sm->scenes->content[sm->index]));
 }

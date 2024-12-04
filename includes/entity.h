@@ -24,7 +24,7 @@ typedef struct s_entity {
 Entity *entityConstructor(iVec3 pos, Vec3 vel, Functions *f);
 
 typedef struct s_tank {
-    Entity  *base;
+    Entity  base;
     int     id;
 }   Tank;
 

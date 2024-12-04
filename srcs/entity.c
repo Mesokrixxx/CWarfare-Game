@@ -13,9 +13,8 @@ Functions *functionsRegister(   void (*init)(void*),
 }
 
 Entity *entityConstructor(iVec3 pos, Vec3 vel, Functions *f) {
-    Entity *entity;
+    Entity *entity = calloc(1, sizeof(struct s_entity));
     
-    entity = calloc(1, sizeof(struct s_entity));
     entity->position = pos;
     entity->velocity = vel;
     entity->f = f;
