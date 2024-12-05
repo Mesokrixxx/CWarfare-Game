@@ -1,18 +1,15 @@
 # include "entity.h"
 
 static void init(void *vTank) {
-    Tank *tTank = (Tank *)vTank;
-    printf("Tank initialising: %d\n", tTank->id);
+    
 }
 
 static void render(void *vTank) {
-    Tank *tTank = (Tank *)vTank;
-    printf("Tank Rendering: %d\n", tTank->id);
+    
 }
 
 static void update(void *vTank) {
-    Tank *tTank = (Tank *)vTank;
-    printf("Tank Updating: %d\n", tTank->id);
+    
 }
 
 Tank *tankConstructor(iVec3 pos, Vec3 vel, int id) {

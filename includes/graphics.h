@@ -1,8 +1,8 @@
 # ifndef WG_GRAPHICS_H
 # define WG_GRAPHICS_H
 
-#include "wg_vars.h"
-#include "wg_math.h"
+# include "wg_vars.h"
+# include "wg_math.h"
 
 # define BLUE 0xFF0000
 # define GREEN 0x00FF00
@@ -15,7 +15,12 @@
 # define CYAN 0xFFFF00
 # define PINK 0xFF00FF
 
-void drawLine(iVec2 startpos, iVec2 endpos, Game *game, uint Color);
+typedef struct s_part {
+    DList *vertices;
+    void (*drawMethod)(iVertices, Game*, uint);
+} Part;
+
+void drawLine(iVertices vertices, Game *game, uint Color);
 void drawTriangle(iVertices vertices, Game *game, uint Color);
 void drawFilledTriangle(iVertices vertices, Game *game, uint Color);
 

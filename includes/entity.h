@@ -4,6 +4,7 @@
 # include "wg_vars.h"
 # include "graphics.h"
 # include "wg_math.h"
+# include "dynamicList.h"
 
 typedef struct s_functions{
     void    (*init)(void*);
@@ -18,6 +19,7 @@ Functions *functionsRegister(   void (*init)(void*),
 typedef struct s_entity {
     iVec3       position;
     Vec3        velocity;
+    DList       *renderingParts;
     Functions   *f;
 }   Entity;
 
