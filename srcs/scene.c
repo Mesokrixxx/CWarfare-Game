@@ -1,5 +1,6 @@
 #include "scene.h"
 
+// Create a scene
 Scene *initScene() {
 	Scene *s = calloc(1, sizeof(struct s_scene));
 
@@ -7,33 +8,37 @@ Scene *initScene() {
 	return (s);
 }
 
+// Add an entity to a scene
 void addEntityToScene(Scene *s, Entity *entity) {
 	appendToDList(s->entities, entity);
 }
 
-void initSceneContent(Scene *s) {
+// Initialize the content of a scene
+void initSceneContent(Scene *s, Game *game) {
 	for (int i = 0; i < s->entities->size; i++)
 	{
 		Entity *e = ((Entity *)s->entities->content[i]);
 		if (e->f->init)
-			e->f->init(e);
+			e->f->init(e, game);
 	}
 }
 
-void updateSceneContent(Scene *s) {
+// Update the content of a scene
+void updateSceneContent(Scene *s, Game *game) {
 	for (int i = 0; i < s->entities->size; i++)
 	{
 		Entity *e = (Entity *)s->entities->content[i];
 		if (e->f->update)
-			e->f->update(e);
+			e->f->update(e, game);
 	}
 }
 
-void renderSceneContent(Scene *s) {
+// Render the content of a scene
+void renderSceneContent(Scene *s, Game *game) {
 	for (int i = 0; i < s->entities->size; i++)
 	{
 		Entity *e = (Entity *)s->entities->content[i];
 		if (e->f->render)
-			e->f->render(e);
+			e->f->render(e, game);
 	}
 }

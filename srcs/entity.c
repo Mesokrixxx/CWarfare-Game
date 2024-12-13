@@ -1,8 +1,9 @@
 # include "entity.h"
 
-Functions *functionsRegister(   void (*init)(void*),
-                                void (*render)(void*),
-                                void (*update)(void*)) {
+// Create a new set of functions
+Functions *functionsRegister(   void (*init)(void*, Game*),
+                                void (*render)(void*, Game*),
+                                void (*update)(void*, Game*)) {
     Functions *f;
 
     f = calloc(1, sizeof(struct s_functions));
@@ -12,6 +13,7 @@ Functions *functionsRegister(   void (*init)(void*),
     return (f);
 }
 
+// Create an entity
 Entity *entityConstructor(iVec3 pos, Vec3 vel, Functions *f) {
     Entity *entity = calloc(1, sizeof(struct s_entity));
     
@@ -19,4 +21,10 @@ Entity *entityConstructor(iVec3 pos, Vec3 vel, Functions *f) {
     entity->velocity = vel;
     entity->f = f;
     return (entity);
+}
+
+// Destroy an entity
+void destroyEntity(Entity *e) {
+    free(e->f);
+    free(e);
 }

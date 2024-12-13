@@ -7,23 +7,23 @@
 # include "dynamicList.h"
 
 typedef struct s_functions{
-    void    (*init)(void*);
-    void    (*render)(void*);
-    void    (*update)(void*);
+    void    (*init)(void*, Game*);
+    void    (*render)(void*, Game*);
+    void    (*update)(void*, Game*);
 }   Functions;
 
-Functions *functionsRegister(   void (*init)(void*),
-                                void (*render)(void*),
-                                void (*update)(void*));
+Functions *functionsRegister(   void (*init)(void*, Game*),
+                                void (*render)(void*, Game*),
+                                void (*update)(void*, Game*));
 
 typedef struct s_entity {
     iVec3       position;
     Vec3        velocity;
-    DList       *renderingParts;
     Functions   *f;
 }   Entity;
 
 Entity *entityConstructor(iVec3 pos, Vec3 vel, Functions *f);
+void destroyEntity(Entity *e);
 
 typedef struct s_tank {
     Entity  base;

@@ -15,13 +15,13 @@
 # define CYAN 0xFFFF00
 # define PINK 0xFF00FF
 
-typedef struct s_part {
-    DList *vertices;
-    void (*drawMethod)(iVertices, Game*, uint);
-} Part;
-
-void drawLine(iVertices vertices, Game *game, uint Color);
+Bool isInBounds(int x, int y);
+void drawPixel(int x, int y, Game *game, uint Color);
+void drawLine(iVec2 startpos, iVec2 endpos, Game *game, uint Color);
+void drawFastHLine(int x1, int x2, int y, Game *game, uint Color);
 void drawTriangle(iVertices vertices, Game *game, uint Color);
 void drawFilledTriangle(iVertices vertices, Game *game, uint Color);
+void drawRect(iVec2 pos, iVec2 size, Game *game, uint Color);
+void drawFilledRect(iVec2 pos, iVec2 size, Game *game, uint Color);
 
 #endif

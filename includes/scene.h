@@ -11,8 +11,8 @@ typedef struct s_scene {
 Scene *initScene();
 void addEntityToScene(Scene *s, Entity *entity);
 
-void initSceneContent(Scene *s);
-void updateSceneContent(Scene *s);
-void renderSceneContent(Scene *s);
+void initSceneContent(Scene *s, Game *game);
+void updateSceneContent(Scene *s, Game *game);
+void renderSceneContent(Scene *s, Game *game);
 
 #endif

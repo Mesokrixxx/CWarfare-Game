@@ -1,14 +1,16 @@
 # include "entity.h"
 
-static void init(void *vTank) {
+# include <math.h>
+
+static void init(void *vTank, Game *game) {
+
+}
+
+static void render(void *vTank, Game *game) {
     
 }
 
-static void render(void *vTank) {
-    
-}
-
-static void update(void *vTank) {
+static void update(void *vTank, Game *game) {
     
 }
 

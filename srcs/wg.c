@@ -15,17 +15,17 @@ static void load(SceneManager **SM)
 
 static void init(Game *game, SceneManager *SM) {
 	Scene *actualScene = getActualScene(SM);
-	initSceneContent(actualScene);
+	initSceneContent(actualScene, game);
 }
 
 static void update(Game *game, SceneManager *SM) {
 	Scene *actualScene = getActualScene(SM);
-	updateSceneContent(actualScene);
+	updateSceneContent(actualScene, game);
 }
 
 static void render(Game *game, SceneManager *SM) {
 	Scene *actualScene = getActualScene(SM);
-	renderSceneContent(actualScene);
+	renderSceneContent(actualScene, game);
 }
 
 int main(void) {
