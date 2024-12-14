@@ -5,16 +5,17 @@
 # include "graphics.h"
 # include "wg_math.h"
 # include "dynamicList.h"
+# include "eventHandler.h"
 
 typedef struct s_functions{
-    void    (*init)(void*, Game*);
-    void    (*render)(void*, Game*);
-    void    (*update)(void*, Game*);
+    void    (*init)(void*, EventHandler*, Game*);
+    void    (*render)(void*, EventHandler*, Game*);
+    void    (*update)(void*, EventHandler*, Game*);
 }   Functions;
 
-Functions *functionsRegister(   void (*init)(void*, Game*),
-                                void (*render)(void*, Game*),
-                                void (*update)(void*, Game*));
+Functions *functionsRegister(   void (*init)(void*, EventHandler*, Game*),
+                                void (*render)(void*, EventHandler*, Game*),
+                                void (*update)(void*, EventHandler*, Game*));
 
 typedef struct s_entity {
     iVec3       position;

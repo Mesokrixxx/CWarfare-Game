@@ -27,9 +27,11 @@ Bool freeDList(DList *dlist)
 	return (true);
 }
 
-// Return the index element of a list
+// Return the element at index, return NULL if index is out of range
 void *getDListElement(DList *dlist, uint index)
 {
+	if (index >= dlist->size)
+		return (NULL);
 	return (dlist->content[index]);
 }
 

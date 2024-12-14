@@ -3,6 +3,7 @@
 
 # include "entity.h"
 # include "dynamicList.h"
+# include "eventHandler.h"
 
 typedef struct s_scene {
 	DList *entities;
@@ -11,8 +12,8 @@ typedef struct s_scene {
 Scene *initScene();
 void addEntityToScene(Scene *s, Entity *entity);
 
-void initSceneContent(Scene *s, Game *game);
-void updateSceneContent(Scene *s, Game *game);
-void renderSceneContent(Scene *s, Game *game);
+void initSceneContent(Scene *s, EventHandler *eh, Game *game);
+void updateSceneContent(Scene *s, EventHandler *eh, Game *game);
+void renderSceneContent(Scene *s, EventHandler *eh, Game *game);
 
 #endif

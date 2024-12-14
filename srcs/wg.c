@@ -1,33 +1,41 @@
 #include "wg.h"
 
-static void load(SceneManager **SM)
-{
-	Tank			*tank1 = tankConstructor(newiVec3(200, 200, 0), newVec3(0, 0, 0), 1);
+static void quit_game(void *content, Game *game) {
+    game->quit = true;
+}
 
-	Scene			*gameScene = initScene();
+static void load(SceneManager **SM, EventHandler **EH)
+{
+	Tank *tank1 = tankConstructor(newiVec3(200, 200, 0), newVec3(0, 0, 0), 1);
+
+	Scene *gameScene = initScene();
 	addEntityToScene(gameScene, tank1);
 
 	*SM = initSceneManager();
 	addSceneToSceneManager(*SM, gameScene);
+
+    *EH = initEventHandler();
+    addEventToEventHandler(*EH, eventConstructor(SDLK_ESCAPE, &quit_game, NULL));
 }
 
-static void init(Game *game, SceneManager *SM) {
+static void init(Game *game, SceneManager *SM, EventHandler *EH) {
 	Scene *actualScene = getActualScene(SM);
-	initSceneContent(actualScene, game);
+	initSceneContent(actualScene, EH, game);
 }
 
-static void update(Game *game, SceneManager *SM) {
+static void update(Game *game, SceneManager *SM, EventHandler *EH) {
 	Scene *actualScene = getActualScene(SM);
-	updateSceneContent(actualScene, game);
+	updateSceneContent(actualScene, EH, game);
 }
 
-static void render(Game *game, SceneManager *SM) {
+static void render(Game *game, SceneManager *SM, EventHandler *EH) {
 	Scene *actualScene = getActualScene(SM);
-	renderSceneContent(actualScene, game);
+	renderSceneContent(actualScene, EH, game);
 }
 
 int main(void) {
 	SceneManager	*SM;
+    EventHandler    *EH;
 	Game 			game;
 	
 	bzero(&game, sizeof(game));
@@ -53,16 +61,13 @@ int main(void) {
 						MapWidth, MapHeight);
 	ASSERT(game.texture, "Failed to create SDL texture: %s\n", SDL_GetError());
 
-	load(&SM);
-	init(&game, SM);
+	load(&SM, &EH);
+	init(&game, SM, EH);
 	while (!game.quit) {
 		SDL_Event ev;
 		while (SDL_PollEvent(&ev)) {
-			switch (ev.type) {
-				case SDL_QUIT:
-					game.quit = true;
-					break ;
-			}
+			if (ev.type == SDL_KEYDOWN)
+				callEvents(EH, ev.key.keysym.sym, &game);
 		}
 
 		const uchar *keyState = SDL_GetKeyboardState(NULL);
@@ -72,8 +77,8 @@ int main(void) {
 
 		bzero(game.pixels, sizeof(game.pixels));
 
-		update(&game, SM);
-		render(&game, SM);
+		update(&game, SM, EH);
+		render(&game, SM, EH);
 
 		SDL_UpdateTexture(game.texture, NULL, game.pixels, MapWidth * 4);
 		SDL_RenderCopyEx(
