@@ -20,7 +20,9 @@ void initSceneContent(Scene *s, Game *game) {
 		Entity *e = ((Entity *)s->entities->content[i]);
 		if (e->f->init)
 			e->f->init(e, game);
-	}
+        if (e->parts->size > 0)
+            sortPartsOfEntity(e->parts);
+    }
 }
 
 // Update the content of a scene

@@ -7,6 +7,7 @@
 # include <SDL2/SDL.h>
 
 typedef enum { false, true } Bool;
+typedef enum { VOID = -1, GROUND = 10, ENTITIES = 20, UI = 100 } Layer;
 
 # define uint unsigned int
 # define uchar unsigned char

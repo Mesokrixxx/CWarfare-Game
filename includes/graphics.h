@@ -20,12 +20,15 @@ typedef struct s_renderingpart {
     DList *iVec2s;
     Bool filled;
     uint color;
+    Layer layer;
 } RenderingPart;
 
-RenderingPart *initRenderingPart(Bool filled, uint color);
+RenderingPart *initRenderingPart(Bool filled, uint color, Layer layer);
 void appendToRenderingPart(RenderingPart *part, iVec2 v);
 void drawRenderingPart(RenderingPart *part, Game *game);
+void drawRenderingParts(DList *parts, Game *game);
 void destroyRenderingPart(RenderingPart *part);
+void sortPartsOfEntity(DList *parts);
 
 Bool isInBounds(int x, int y);
 void drawPixel(int x, int y, Game *game, uint Color);

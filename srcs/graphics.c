@@ -1,12 +1,13 @@
 #include "graphics.h"
 
 // Initializes a rendering part (Contain a lists of points wich can be used to draw different part of an entity)
-RenderingPart *initRenderingPart(Bool filled, uint color) {
+RenderingPart *initRenderingPart(Bool filled, uint color, Layer layer) {
     RenderingPart *part = calloc(1, sizeof(RenderingPart));
     
     part->iVec2s = initDynamicList(sizeof(iVec2));
     part->filled = filled;
     part->color = color;
+    part->layer = layer;
     return (part);
 }
 
@@ -17,29 +18,35 @@ void appendToRenderingPart(RenderingPart *part, iVec2 v) {
     appendToDList(part->iVec2s, newPoint);
 }
 
-// Draws a part
+// Draws a single part
 void drawRenderingPart(RenderingPart *part, Game *game) {
-    int pointCount = part->iVec2s->size;
+    if (part->iVec2s->size == 0) return;
 
-    if (pointCount == 0) return;
-    
-    if (pointCount == 1) {
-        iVec2 *v = (iVec2 *)part->iVec2s->content[0];
+    if (part->iVec2s->size == 1) {
+        iVec2 *v = ((iVec2 *)part->iVec2s->content[0]);
         drawPixel(v->x, v->y, game, part->color);
-    } else if (pointCount == 2) {
-        iVec2 *v1 = (iVec2 *)part->iVec2s->content[0];
-        iVec2 *v2 = (iVec2 *)part->iVec2s->content[1];
+    } else if (part->iVec2s->size == 2) {
+        iVec2 *v1 = ((iVec2 *)part->iVec2s->content[0]);
+        iVec2 *v2 = ((iVec2 *)part->iVec2s->content[1]);
         drawLine(*v1, *v2, game, part->color);
     } else {
-        for (uint i = 0; i < pointCount - 2; i++) {
-            iVec2 *v1 = (iVec2 *)part->iVec2s->content[i];
-            iVec2 *v2 = (iVec2 *)part->iVec2s->content[i + 1];
-            iVec2 *v3 = (iVec2 *)part->iVec2s->content[i + 2];
+        for (uint i = 0; i < part->iVec2s->size - 2; i++) {
+            iVec2 *v1 = ((iVec2 *)part->iVec2s->content[i]);
+            iVec2 *v2 = ((iVec2 *)part->iVec2s->content[i + 1]);
+            iVec2 *v3 = ((iVec2 *)part->iVec2s->content[i + 2]);
+            iVertices vertices = newiVertices(*v1, *v2, *v3);
             if (part->filled)
-                drawFilledTriangle(newiVertices(*v1, *v2, *v3), game, part->color);
+                drawFilledTriangle(vertices, game, part->color);
             else
-                drawTriangle(newiVertices(*v1, *v2, *v3), game, part->color);
+                drawTriangle(vertices, game, part->color);
         }
+    }
+}
+
+// Draws all parts of a list
+void drawRenderingParts(DList *parts, Game *game) {
+    for (uint i = 0; i < parts->size; i++) {
+        drawRenderingPart((RenderingPart *)parts->content[i], game);
     }
 }
 
@@ -52,6 +59,20 @@ void destroyRenderingPart(RenderingPart *part) {
     // Free the list and the part
     freeDList(part->iVec2s);
     free(part);
+}
+
+void sortPartsOfEntity(DList *parts) {
+    int size = parts->size;
+
+    for (uint i = 0; i < size - 1; i++) {
+        for (uint j = 0; j < size - i - 1; j++) {
+            if (((RenderingPart *)parts->content[j])->layer > ((RenderingPart *)parts->content[j + 1])->layer) {
+                void *tmp = parts->content[j];
+                parts->content[j] = parts->content[j + 1];
+                parts->content[j + 1] = tmp;
+            }
+        }
+    }
 }
 
 // Check if a point is within bounds
