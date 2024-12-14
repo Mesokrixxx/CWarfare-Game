@@ -17,6 +17,11 @@ Vec3 newVec3fromVec2(Vec2 v, float z) { return ((Vec3){ v.x, v.y, z }); };
 // Returns a new iVec3 from a iVec2 and an int z
 iVec3 newiVec3fromiVec2(iVec2 v, int z) { return ((iVec3){ v.x, v.y, z }); };
 
+// Returns v1 + v2
+iVec2 addIVec2(iVec2 v1, iVec2 v2) { 
+    return ((iVec2){ v1.x + v2.x, v1.y + v2.y });
+}
+
 // Interpolates between v1 and v2 using y
 int	interpolate(iVec2 v1, iVec2 v2, int y) {
 	if (v1.y == v2.y) { return (v1.x); }

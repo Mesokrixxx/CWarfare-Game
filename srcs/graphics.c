@@ -4,37 +4,44 @@
 RenderingPart *initRenderingPart(Bool filled, uint color, Layer layer) {
     RenderingPart *part = calloc(1, sizeof(RenderingPart));
     
-    part->iVec2s = initDynamicList(sizeof(iVec2));
+    part->origin = initDynamicList(sizeof(iVec2));
+    part->offset = initDynamicList(sizeof(iVec2));
     part->filled = filled;
     part->color = color;
+    part->partCount = 0;
     part->layer = layer;
     return (part);
 }
 
 // Adds a point to a rendering part
-void appendToRenderingPart(RenderingPart *part, iVec2 v) {
-    iVec2 *newPoint = calloc(1, sizeof(iVec2));
-    *newPoint = v;
-    appendToDList(part->iVec2s, newPoint);
+void appendToRenderingPart(RenderingPart *part, iVec2 ip, iVec2 o) {
+    iVec2 *origin = calloc(1, sizeof(iVec2));
+    iVec2 *offset = calloc(1, sizeof(iVec2));
+    
+    *origin = ip;
+    *offset = o;
+    appendToDList(part->origin, origin);
+    appendToDList(part->offset, offset);
+    part->partCount++;
 }
 
 // Draws a single part
 void drawRenderingPart(RenderingPart *part, Game *game) {
-    if (part->iVec2s->size == 0) return;
+    if (part->partCount == 0) return;
 
-    if (part->iVec2s->size == 1) {
-        iVec2 *v = ((iVec2 *)part->iVec2s->content[0]);
-        drawPixel(v->x, v->y, game, part->color);
-    } else if (part->iVec2s->size == 2) {
-        iVec2 *v1 = ((iVec2 *)part->iVec2s->content[0]);
-        iVec2 *v2 = ((iVec2 *)part->iVec2s->content[1]);
-        drawLine(*v1, *v2, game, part->color);
+    if (part->partCount == 1) {
+        iVec2 v = addIVec2(*(iVec2 *)(part->origin->content[0]), *(iVec2 *)(part->offset->content[0]));
+        drawPixel(v.x, v.y, game, part->color);
+    } else if (part->partCount == 2) {
+        iVec2 v1 = addIVec2(*(iVec2 *)(part->origin->content[0]), *(iVec2 *)(part->offset->content[0]));
+        iVec2 v2 = addIVec2(*(iVec2 *)(part->origin->content[1]), *(iVec2 *)(part->offset->content[1]));
+        drawLine(v1, v2, game, part->color);
     } else {
-        for (uint i = 0; i < part->iVec2s->size - 2; i++) {
-            iVec2 *v1 = ((iVec2 *)part->iVec2s->content[i]);
-            iVec2 *v2 = ((iVec2 *)part->iVec2s->content[i + 1]);
-            iVec2 *v3 = ((iVec2 *)part->iVec2s->content[i + 2]);
-            iVertices vertices = newiVertices(*v1, *v2, *v3);
+        for (uint i = 0; i < part->partCount - 2; i++) {
+            iVec2 v1 = addIVec2(*(iVec2 *)(part->origin->content[i]), *(iVec2 *)(part->offset->content[i]));
+            iVec2 v2 = addIVec2(*(iVec2 *)(part->origin->content[i + 1]), *(iVec2 *)(part->offset->content[i + 1]));
+            iVec2 v3 = addIVec2(*(iVec2 *)(part->origin->content[i + 2]), *(iVec2 *)(part->offset->content[i + 2]));
+            iVertices vertices = newiVertices(v1, v2, v3);
             if (part->filled)
                 drawFilledTriangle(vertices, game, part->color);
             else
@@ -53,11 +60,13 @@ void drawRenderingParts(DList *parts, Game *game) {
 // Free a rendering part and its points
 void destroyRenderingPart(RenderingPart *part) {
     // Free each point
-    for (uint i = 0; i < part->iVec2s->size; i++) {
-        free(part->iVec2s->content[i]);
+    for (uint i = 0; i < part->origin->size; i++) {
+        free(part->origin->content[i]);
+        free(part->offset->content[i]);
     }
     // Free the list and the part
-    freeDList(part->iVec2s);
+    freeDList(part->origin);
+    freeDList(part->offset);
     free(part);
 }
 

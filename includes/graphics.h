@@ -17,14 +17,16 @@
 # define PINK 0xFF00FF
 
 typedef struct s_renderingpart {
-    DList *iVec2s;
+    DList *origin;
+    DList *offset;
     Bool filled;
     uint color;
+    uint partCount;
     Layer layer;
 } RenderingPart;
 
 RenderingPart *initRenderingPart(Bool filled, uint color, Layer layer);
-void appendToRenderingPart(RenderingPart *part, iVec2 v);
+void appendToRenderingPart(RenderingPart *part, iVec2 ip, iVec2 o);
 void drawRenderingPart(RenderingPart *part, Game *game);
 void drawRenderingParts(DList *parts, Game *game);
 void destroyRenderingPart(RenderingPart *part);
