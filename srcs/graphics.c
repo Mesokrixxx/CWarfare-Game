@@ -1,5 +1,59 @@
 #include "graphics.h"
 
+// Initializes a rendering part (Contain a lists of points wich can be used to draw different part of an entity)
+RenderingPart *initRenderingPart(Bool filled, uint color) {
+    RenderingPart *part = calloc(1, sizeof(RenderingPart));
+    
+    part->iVec2s = initDynamicList(sizeof(iVec2));
+    part->filled = filled;
+    part->color = color;
+    return (part);
+}
+
+// Adds a point to a rendering part
+void appendToRenderingPart(RenderingPart *part, iVec2 v) {
+    iVec2 *newPoint = calloc(1, sizeof(iVec2));
+    *newPoint = v;
+    appendToDList(part->iVec2s, newPoint);
+}
+
+// Draws a part
+void drawRenderingPart(RenderingPart *part, Game *game) {
+    int pointCount = part->iVec2s->size;
+
+    if (pointCount == 0) return;
+    
+    if (pointCount == 1) {
+        iVec2 *v = (iVec2 *)part->iVec2s->content[0];
+        drawPixel(v->x, v->y, game, part->color);
+    } else if (pointCount == 2) {
+        iVec2 *v1 = (iVec2 *)part->iVec2s->content[0];
+        iVec2 *v2 = (iVec2 *)part->iVec2s->content[1];
+        drawLine(*v1, *v2, game, part->color);
+    } else {
+        for (uint i = 0; i < pointCount - 2; i++) {
+            iVec2 *v1 = (iVec2 *)part->iVec2s->content[i];
+            iVec2 *v2 = (iVec2 *)part->iVec2s->content[i + 1];
+            iVec2 *v3 = (iVec2 *)part->iVec2s->content[i + 2];
+            if (part->filled)
+                drawFilledTriangle(newiVertices(*v1, *v2, *v3), game, part->color);
+            else
+                drawTriangle(newiVertices(*v1, *v2, *v3), game, part->color);
+        }
+    }
+}
+
+// Free a rendering part and its points
+void destroyRenderingPart(RenderingPart *part) {
+    // Free each point
+    for (uint i = 0; i < part->iVec2s->size; i++) {
+        free(part->iVec2s->content[i]);
+    }
+    // Free the list and the part
+    freeDList(part->iVec2s);
+    free(part);
+}
+
 // Check if a point is within bounds
 Bool isInBounds(int x, int y) {
     return (x >= 0 && x < MapWidth && y >= 0 && y < MapHeight);

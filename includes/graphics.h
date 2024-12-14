@@ -3,6 +3,7 @@
 
 # include "wg_vars.h"
 # include "wg_math.h"
+# include "dynamicList.h"
 
 # define BLUE 0xFF0000
 # define GREEN 0x00FF00
@@ -14,6 +15,17 @@
 # define YELLOW 0x00FFFF
 # define CYAN 0xFFFF00
 # define PINK 0xFF00FF
+
+typedef struct s_renderingpart {
+    DList *iVec2s;
+    Bool filled;
+    uint color;
+} RenderingPart;
+
+RenderingPart *initRenderingPart(Bool filled, uint color);
+void appendToRenderingPart(RenderingPart *part, iVec2 v);
+void drawRenderingPart(RenderingPart *part, Game *game);
+void destroyRenderingPart(RenderingPart *part);
 
 Bool isInBounds(int x, int y);
 void drawPixel(int x, int y, Game *game, uint Color);

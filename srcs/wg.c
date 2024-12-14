@@ -2,12 +2,10 @@
 
 static void load(SceneManager **SM)
 {
-	Tank			*tank1 = tankConstructor(newiVec3(0, 0, 0), newVec3(0, 0, 0), 1);
-	Tank			*tank2 = tankConstructor(newiVec3(0, 0, 0), newVec3(0, 0, 0), 2);
+	Tank			*tank1 = tankConstructor(newiVec3(200, 200, 0), newVec3(0, 0, 0), 1);
 
 	Scene			*gameScene = initScene();
 	addEntityToScene(gameScene, tank1);
-	addEntityToScene(gameScene, tank2);
 
 	*SM = initSceneManager();
 	addSceneToSceneManager(*SM, gameScene);

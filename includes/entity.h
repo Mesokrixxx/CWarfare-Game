@@ -20,10 +20,12 @@ typedef struct s_entity {
     iVec3       position;
     Vec3        velocity;
     Functions   *f;
+    DList       *parts;
 }   Entity;
 
 Entity *entityConstructor(iVec3 pos, Vec3 vel, Functions *f);
 void destroyEntity(Entity *e);
+void addPartToEntity(Entity *e, RenderingPart *part);
 
 typedef struct s_tank {
     Entity  base;

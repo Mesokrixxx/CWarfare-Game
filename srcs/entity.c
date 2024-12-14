@@ -20,11 +20,22 @@ Entity *entityConstructor(iVec3 pos, Vec3 vel, Functions *f) {
     entity->position = pos;
     entity->velocity = vel;
     entity->f = f;
+    entity->parts = initDynamicList(sizeof(struct s_renderingpart));
     return (entity);
 }
 
 // Destroy an entity
 void destroyEntity(Entity *e) {
+    // Free all parts
+    for (uint i = 0; i < e->parts->size; i++) {
+        destroyRenderingPart((RenderingPart *)e->parts->content[i]);
+    }
+    freeDList(e->parts);
     free(e->f);
     free(e);
+}
+
+// Add a part to an entity
+void addPartToEntity(Entity *e, RenderingPart *part) {
+    appendToDList(e->parts, part);
 }
