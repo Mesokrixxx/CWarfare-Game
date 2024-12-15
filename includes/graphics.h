@@ -16,22 +16,6 @@
 # define CYAN 0xFFFF00
 # define PINK 0xFF00FF
 
-typedef struct s_renderingpart {
-    DList *origin;
-    DList *offset;
-    Bool filled;
-    uint color;
-    uint partCount;
-    Layer layer;
-} RenderingPart;
-
-RenderingPart *initRenderingPart(Bool filled, uint color, Layer layer);
-void appendToRenderingPart(RenderingPart *part, iVec2 ip, iVec2 o);
-void drawRenderingPart(RenderingPart *part, Game *game);
-void drawRenderingParts(DList *parts, Game *game);
-void destroyRenderingPart(RenderingPart *part);
-void sortPartsOfEntity(DList *parts);
-
 Bool isInBounds(int x, int y);
 void drawPixel(int x, int y, Game *game, uint Color);
 void drawLine(iVec2 startpos, iVec2 endpos, Game *game, uint Color);

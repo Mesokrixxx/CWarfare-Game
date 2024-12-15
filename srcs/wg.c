@@ -6,7 +6,7 @@ static void quit_game(void *content, Game *game) {
 
 static void load(SceneManager **SM, EventHandler **EH)
 {
-	Tank *tank1 = tankConstructor(newiVec3(200, 200, 0), newVec3(0, 0, 0), 1);
+	Tank *tank1 = tankConstructor(newiVec2(200, 200), newVec2(0, 0), 1);
 
 	Scene *gameScene = initScene();
 	addEntityToScene(gameScene, tank1);

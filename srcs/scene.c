@@ -20,8 +20,6 @@ void initSceneContent(Scene *s, EventHandler *eh, Game *game) {
 		Entity *e = ((Entity *)s->entities->content[i]);
 		if (e->f->init)
 			e->f->init(e, eh, game);
-        if (e->parts->size > 0)
-            sortPartsOfEntity(e->parts);
     }
 }
 

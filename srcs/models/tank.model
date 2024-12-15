@@ -1,0 +1,26 @@
+[BODY]
+color:WHITE
+filled:false
+layer:ENTITIES
+1:-8,-12
+2:8,-12
+3:-8,12
+4:8,12
+
+[LEFT CHASSIS]
+color:BLUE
+filled:false
+layer:ENTITIES
+1:-15,-20
+2:-8,-20
+3:-15,20
+4:-8,20
+
+[RIGHT CHASSIS]
+color:RED
+filled:false
+layer:ENTITIES
+1:15,-20
+2:8,-20
+3:15,20
+4:8,20

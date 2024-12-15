@@ -4,7 +4,7 @@
 DList *initDynamicList(size_t content_size) {
 	DList *dlist;
 
-	dlist = calloc(1, content_size);
+	dlist = calloc(1, sizeof(struct s_dlist));
 	dlist->content_size = content_size;
 	dlist->size = 0;
 	return (dlist);
@@ -17,11 +17,12 @@ void appendToDList(DList *dlist, void *content) {
 	dlist->content[dlist->size - 1] = content;
 }
 
-// Free a list if empty, return true if successful
+// Free a list and it's content
 Bool freeDList(DList *dlist)
 {
 	if (dlist->size > 0)
-		return (false);
+		for (uint i = 0; i < dlist->size; i++)
+			free(dlist->content[i]);
 	free(dlist->content);
 	free(dlist);
 	return (true);

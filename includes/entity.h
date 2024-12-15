@@ -18,21 +18,18 @@ Functions *functionsRegister(   void (*init)(void*, EventHandler*, Game*),
                                 void (*update)(void*, EventHandler*, Game*));
 
 typedef struct s_entity {
-    iVec3       position;
-    Vec3        velocity;
+    iVec2       position;
+    Vec2        velocity;
     Functions   *f;
-    DList       *parts;
 }   Entity;
 
-Entity *entityConstructor(iVec3 pos, Vec3 vel, Functions *f);
-void destroyEntity(Entity *e);
-void addPartToEntity(Entity *e, RenderingPart *part);
+Entity *entityConstructor(iVec2 pos, Vec2 vel, Functions *f);
+void destroyEntity(Entity *e2);
 
 typedef struct s_tank {
     Entity  base;
     int     id;
 }   Tank;
 
-Tank *tankConstructor(iVec3 pos, Vec3 vel, int id);
-
+Tank *tankConstructor(iVec2 pos, Vec2 vel, int id);
 #endif
