@@ -21,6 +21,46 @@ char *getModel(char *path) {
     return (NULL);
 }
 
+// Return 1 if line is empty and 0 if not
+int gotoNextLine(char *modelFormat, int *pos)
+{
+	while (modelFormat[*pos] && modelFormat[*pos] != '\n')
+		*pos += 1;
+	if (modelFormat[*pos])
+	{
+		*pos += 1;
+		if (modelFormat[*pos] && modelFormat[*pos] != '\n')
+			return (1);
+		return (0);
+	}
+	return (1);
+}
+
+// Get ID in the model: [ID] and call gotoNextLine
+char *getID(char *modelFormat, int *pos)
+{
+	int temp = 0;
+
+	// Get the len of the ID
+	while (modelFormat[temp + *pos] != ']')
+		temp++;
+	char *id = calloc(temp + 1, sizeof(char));
+	temp = 0;
+	while (modelFormat[*pos] != ']')
+	{
+		id[temp] = modelFormat[*pos]; 
+		*pos += 1;
+		temp++;
+	}
+	gotoNextLine(modelFormat, pos);
+	return (id);
+}
+
+uint getColor(char *modelFormat, int *pos)
+{
+	
+}
+
 Model *loadModel(char *path, iVec2 origin) {
     if (!checkModelFile(path)) return (NULL);
 
@@ -33,31 +73,22 @@ Model *loadModel(char *path, iVec2 origin) {
     model->origin = calloc(1, sizeof(iVec2));
     *model->origin = origin;
     
-    int i = 0;
-    while (modelFormat[i])
+    int pos = 0;
+    while (modelFormat[pos])
     {
-        if (modelFormat[i] == '[')
+        if (modelFormat[pos] == '[')
         {
             // Initiate New Part
             Part *newPart = calloc(1, sizeof(struct s_part));
             // Get ID
-            int temp = 0;
-            while (modelFormat[temp + i] != ']')
-                temp++;
-            char *id = calloc(temp + 1, sizeof(char));
-            temp = 0;
-            while (modelFormat[i] != ']')
-            {
-                id[temp] = modelFormat[i]; 
-                i++;
-                temp++;
-            }
-            newPart->id = id;
+            newPart->id = getID(modelFormat, &pos);
             // Get Color
+			newPart->color = getColor(modelFormat, &pos);
             // Get filled
             // Get layer
             // Get points
-        }        
+        }
+		pos++;
     }
 
     free(modelFormat);
