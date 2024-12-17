@@ -7,6 +7,7 @@
 # include "graphics.h"
 
 typedef struct s_part {
+    char *id;
     uint color;
     Bool filled;
     Layer layer;
