@@ -36,7 +36,7 @@ int gotoNextLine(char *modelFormat, int *pos)
 	return (1);
 }
 
-// Get ID in the model: [ID] and call gotoNextLine
+// Get ID in the model: '[ID]' and call gotoNextLine
 char *getID(char *modelFormat, int *pos)
 {
 	int temp = 0;
@@ -56,9 +56,25 @@ char *getID(char *modelFormat, int *pos)
 	return (id);
 }
 
+// Get color in the model: 'color:COLOR' and call gotoNextLine
 uint getColor(char *modelFormat, int *pos)
 {
 	
+}
+
+Bool getFilled(char *modelFormat, int *pos)
+{
+
+}
+
+Layer getLayer(char *modelFormat, int *pos)
+{
+
+}
+
+DList *getPoints(char *modelFormat, int *pos)
+{
+
 }
 
 Model *loadModel(char *path, iVec2 origin) {
@@ -85,14 +101,23 @@ Model *loadModel(char *path, iVec2 origin) {
             // Get Color
 			newPart->color = getColor(modelFormat, &pos);
             // Get filled
+			newPart->filled = getFilled(modelFormat, &pos);
             // Get layer
+			newPart->layer = getLayer(modelFormat, &pos);
             // Get points
+			newPart->points = getPoints(modelFormat, &pos);
+			addPartsToModel(model, newPart);
         }
 		pos++;
     }
 
     free(modelFormat);
     return (model);
+}
+
+void addPartToModel(Model *m, Part *p)
+{
+	appendToDList(m->modelParts, p);
 }
 
 void applyModelToContent(void *e, Model *m) {

@@ -11,7 +11,7 @@ typedef struct s_part {
     uint color;
     Bool filled;
     Layer layer;
-    DList points;
+    DList *points;
 } Part;
 
 typedef struct s_model {
@@ -20,6 +20,7 @@ typedef struct s_model {
 } Model;
 
 Model *loadModel(char *path, iVec2 origin);
+void addPartToModel(Model *m, Part *p);
 void applyModelToContent(void *c, Model *m);
 void freeModel(Model *m);
 
